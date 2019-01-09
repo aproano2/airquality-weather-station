@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import time
-import pms5003
 import logging
 import os
 import yaml
 import helper
+from pms5003py import pms5003
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     logger = logging.getLogger(__name__)
 
     while True:
-        sensor = pms5003.pms5003()
+        sensor = pms5003()
         try:
             bme680 = helper.bme680_data()
             sensor.read_frame()
@@ -23,9 +23,8 @@ def main():
         except KeyboardInterrupt:
             print("\nTerminating data collection")
             break
-        except Exception as e:
-            print(e)
-            logger.error("error", exc_info=True)
+        except:
+            logger.debug("error", exc_info=True)
             break
 
 if __name__ == '__main__':
